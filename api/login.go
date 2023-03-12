@@ -31,3 +31,8 @@ func Session(c *gin.Context) {
 	}
 
 }
+
+func Logout(c *gin.Context) {
+	Token = ""
+	c.JSON(http.StatusOK, gin.H{})
+}

@@ -27,8 +27,12 @@ func main() {
 	router.Use(middleware.Cors)
 
 	apiGroup := router.Group("/api")
+
 	apiGroup.POST("/session", api.Session)
+	apiGroup.DELETE("/session", api.Logout)
+
 	apiGroup.POST("/user_access_log", api.AddAccessLog)
+	apiGroup.GET("/user_access_log", middleware.Authorization, api.GetAccessList)
 
 	httpPort := viper.GetString("app.httpPort")
 	http.ListenAndServe(":"+httpPort, router)
