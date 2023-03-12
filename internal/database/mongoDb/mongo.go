@@ -29,3 +29,10 @@ func GetMongoDb() *mongo.Database {
 	db := mongoClient.Database(dbName)
 	return db
 }
+
+func GetPageSizeOption(page, pageSize int64) *options.FindOptions {
+	var options *options.FindOptions = &options.FindOptions{}
+	options.SetLimit(pageSize)
+	options.SetSkip((page - 1) * pageSize)
+	return options
+}

@@ -9,3 +9,11 @@ type AccessLogPostParam struct {
 	UserAgent string `form:"user_agent" json:"user_agent"`
 	Referer   string `form:"referer" json:"referer"`
 }
+
+type AccessLogGetParam struct {
+	PageParam
+	Domain    string `form:"domain" json:"domain"`
+	DateStart int64  `form:"date_start" json:"date_start"  binding:"required"`
+	DateEnd   int64  `form:"date_end" json:"date_end"  binding:"required"`
+	SessionID string `form:"session_id" json:"session_id" `
+}

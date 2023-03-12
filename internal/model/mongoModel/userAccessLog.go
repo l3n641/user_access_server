@@ -60,8 +60,8 @@ func (p *UserAccessLog) Update(accessTime time.Time) (primitive.ObjectID, error)
 	update := bson.D{
 		{
 			"$inc", bson.D{{ // $inc 代表增加或减少
-				"page_views", 1, // 在原值的基础上 +1
-			}},
+			"page_views", 1, // 在原值的基础上 +1
+		}},
 		},
 		{"$set", bson.D{{"last_access_time", accessTime}}},
 	}
@@ -70,5 +70,9 @@ func (p *UserAccessLog) Update(accessTime time.Time) (primitive.ObjectID, error)
 	collection := p.GetCollection()
 	err := collection.FindOneAndUpdate(context.TODO(), filter, update, &opt).Decode(&prototype)
 	return p.Id, err
+
+}
+
+func (p *UserAccessLog) GetList(page, pageSize int64) {
 
 }
