@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"user_accerss_server/api"
+	"user_accerss_server/api/middleware"
 	"user_accerss_server/internal/database/mongoDb"
 )
 import "github.com/spf13/viper"
@@ -23,8 +24,10 @@ func main() {
 	if debug != "" {
 		gin.SetMode(gin.DebugMode)
 	}
+	router.Use(middleware.Cors)
 
 	apiGroup := router.Group("/api")
+	apiGroup.POST("/session", api.Session)
 	apiGroup.POST("/user_access_log", api.AddAccessLog)
 
 	httpPort := viper.GetString("app.httpPort")
