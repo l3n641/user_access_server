@@ -10,7 +10,7 @@ import (
 
 type UserAccessDetail struct {
 	CreateTime    time.Time `bson:"create_time"`    //创建记录的时间
-	Domain        string    `bson:"Domain"`         //域名
+	Domain        string    `bson:"domain"`         //域名
 	Uri           string    `bson:"uri"`            //网页链接
 	PageType      string    `bson:"page_type"`      //链接类型
 	SessionID     string    `bson:"session_id"`     // 会话id
