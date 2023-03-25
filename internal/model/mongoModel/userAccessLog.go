@@ -44,6 +44,10 @@ func (p *UserAccessLog) Upsert(isNew bool) {
 			}},
 		},
 		{"$set", bson.D{{"last_access_time", p.LastAccessTime}}},
+		{"$set", bson.D{{"client_ip", p.ClientIP}}},
+		{"$set", bson.D{{"client_country", p.ClientCountry}}},
+		{"$set", bson.D{{"user_agent", p.UserAgent}}},
+		{"$set", bson.D{{"referer", p.Referer}}},
 	}
 	if isNew {
 		update = append(update, bson.E{"$set", bson.D{{"first_access_time", p.FirstAccessTime}}})
