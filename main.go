@@ -33,7 +33,7 @@ func main() {
 	apiGroup.GET("/user_info", api.GetUserInfo)
 
 	apiGroup.POST("/user_access_log", api.AddAccessLog)
-	apiGroup.GET("/user_access_log", middleware.Authorization, api.GetAccessList)
+	apiGroup.GET("/user_access_domain_log", middleware.Authorization, api.GetAccessDomainList)
 
 	httpPort := viper.GetString("app.httpPort")
 	http.ListenAndServe(":"+httpPort, router)

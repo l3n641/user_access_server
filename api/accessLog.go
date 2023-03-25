@@ -20,3 +20,20 @@ func AddAccessLog(c *gin.Context) {
 	service.UserAccessSrv.AddRecord(r)
 	c.JSON(http.StatusOK, gin.H{})
 }
+
+func GetAccessDomainList(c *gin.Context) {
+
+	var r params.AccessDomainLogGetParam
+
+	err := c.ShouldBind(&r)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+		return
+	}
+
+	data, total := service.UserAccessDomainLogSrv.GetList(r)
+	c.JSON(http.StatusOK, gin.H{
+		"data":  data,
+		"total": total,
+	})
+}
