@@ -30,6 +30,29 @@ func (p *UserAccessLog) GetCollection() *mongo.Collection {
 	return collection
 }
 
+func (p *UserAccessLog) Upsert(isNew bool) {
+
+	collection := p.GetCollection()
+	options.Update().SetUpsert(true)
+	filter := bson.M{"date": p.Date, "domain": p.Domain, "session_id": p.SessionID}
+	opts := options.Update().SetUpsert(true)
+
+	update := bson.D{
+		{
+			"$inc", bson.D{{ // $inc 代表增加或减少
+				"page_views", 1, // 在原值的基础上 +1
+			}},
+		},
+		{"$set", bson.D{{"last_access_time", p.LastAccessTime}}},
+	}
+	if isNew {
+		update = append(update, bson.E{"$set", bson.D{{"first_access_time", p.FirstAccessTime}}})
+	}
+	// 执行 upsert 操作
+	collection.UpdateOne(context.TODO(), filter, update, opts)
+
+}
+
 func (p *UserAccessLog) Add() (primitive.ObjectID, error) {
 
 	collection := p.GetCollection()

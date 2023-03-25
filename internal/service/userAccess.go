@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 	"user_accerss_server/api/params"
 	"user_accerss_server/internal/model/mongoModel"
@@ -24,34 +23,36 @@ func (u UserAccessService) GetRecordBySessionId(id, domain string, date time.Tim
 }
 
 func (u UserAccessService) AddRecord(param params.AccessLogPostParam) {
-	var log *mongoModel.UserAccessLog
 	var err error
-	var logId primitive.ObjectID
 	currentTime := time.Now()
 	city := tools.ParseIp(param.ClientIP)
 	today := time.Date(currentTime.Year(), currentTime.Month(), currentTime.Day(), 0, 0, 0, 0, time.Local)
-	log, err = u.GetRecordBySessionId(param.SessionID, param.Domain, today)
+	_, err = u.GetRecordBySessionId(param.SessionID, param.Domain, today)
+	domainLog := mongoModel.UserAccessDomainLog{
+		Date:   today,
+		Domain: param.Domain,
+	}
 
+	userLog := mongoModel.UserAccessLog{
+		Date:            today,
+		Domain:          param.Domain,
+		FirstAccessTime: currentTime,
+		LastAccessTime:  currentTime,
+		ClientIP:        param.ClientIP,
+		SessionID:       param.SessionID,
+		UserAgent:       param.UserAgent,
+		Referer:         param.Referer,
+		ClientCountry:   city.CountryName,
+	}
 	if err != nil {
-		data := mongoModel.UserAccessLog{
-			Date:            today,
-			Domain:          param.Domain,
-			FirstAccessTime: currentTime,
-			LastAccessTime:  currentTime,
-			ClientIP:        param.ClientIP,
-			SessionID:       param.SessionID,
-			UserAgent:       param.UserAgent,
-			Referer:         param.Referer,
-			ClientCountry:   city.CountryName,
-			PageViews:       1,
-		}
-		logId, _ = data.Add()
+		domainLog.Upsert(true, param.PageType)
+		userLog.Upsert(true)
 	} else {
-		logId, _ = log.Update(currentTime)
+		domainLog.Upsert(false, param.PageType)
+		userLog.Upsert(false)
 	}
 
 	detailData := mongoModel.UserAccessDetail{
-		LogId:         logId,
 		CreateTime:    currentTime,
 		Domain:        param.Domain,
 		Uri:           param.Uri,
