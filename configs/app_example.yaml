@@ -2,9 +2,13 @@ database_mysql:
   uri: root:123456@tcp(127.0.0.1:3306)/chat?charset=utf8&parseTime=True&loc=Local
 
 database_mongo:
-  uri:mongodb://localhost:27017"
+  uri: mongodb://root:123456@127.0.0.1:27017/admin
+  db_name: access_log
 
 app:
   logFile: log/gin.log
-  httpPort: 8080
-  httpUrl: 127.0.0.1:8080
+  httpPort: 9876
+  httpUrl: 127.0.0.1:9876
+  admin_name: admin
+  admin_password: admin
+  admin_avatar: https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif

@@ -30,6 +30,7 @@ func main() {
 
 	apiGroup.POST("/session", api.Session)
 	apiGroup.DELETE("/session", api.Logout)
+	apiGroup.GET("/user_info", api.GetUserInfo)
 
 	apiGroup.POST("/user_access_log", api.AddAccessLog)
 	apiGroup.GET("/user_access_log", middleware.Authorization, api.GetAccessList)
