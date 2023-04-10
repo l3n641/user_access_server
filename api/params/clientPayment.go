@@ -58,3 +58,9 @@ type ProductParam struct {
 	ImageUrl           string  `form:"image_url" json:"image_url" binding:"required"`
 	ProductsAttributes string  `form:"products_attributes" json:"products_attributes" `
 }
+
+type ClientPaymentListParam struct {
+	PageParam MysqlPageParam
+	DateStart int64 `form:"date_start" json:"date_start"`
+	DateEnd   int64 `form:"date_end" json:"date_end"`
+}

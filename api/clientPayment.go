@@ -22,3 +22,20 @@ func ClientPayment(c *gin.Context) {
 		"html": "",
 	})
 }
+
+func GetClientPaymentList(c *gin.Context) {
+
+	var r params.ClientPaymentListParam
+
+	err := c.ShouldBind(&r)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+		return
+	}
+
+	data, total := service.ClientPaymentSrv.GetList(r)
+	c.JSON(http.StatusOK, gin.H{
+		"data":  data,
+		"total": total,
+	})
+}

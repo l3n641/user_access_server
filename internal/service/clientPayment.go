@@ -30,3 +30,12 @@ func (a ClientPaymentService) Add(param params.ClientInfoParams) {
 	}
 	db.Create(customer)
 }
+
+func (a ClientPaymentService) GetList(param params.ClientPaymentListParam) ([]mysqlModel.CustomerData, int64) {
+	var data []mysqlModel.CustomerData
+	db := mysqlDb.GetDatabase()
+
+	offset := (param.PageParam.Page - 1) * param.PageParam.PageSize
+	result := db.Limit(param.PageParam.PageSize).Offset(offset).Find(&data)
+	return data, result.RowsAffected
+}

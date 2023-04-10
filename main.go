@@ -41,6 +41,7 @@ func main() {
 	apiGroup.GET("/user_access_user_detail", middleware.Authorization, api.GetAccessUserDetail)
 
 	apiGroup.POST("/client_payment", api.ClientPayment)
+	apiGroup.GET("/client_payment", api.GetClientPaymentList)
 
 	httpPort := viper.GetString("app.httpPort")
 	http.ListenAndServe(":"+httpPort, router)
