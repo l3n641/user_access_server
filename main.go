@@ -9,12 +9,15 @@ import (
 	"user_accerss_server/api"
 	"user_accerss_server/api/middleware"
 	"user_accerss_server/internal/database/mongoDb"
+	"user_accerss_server/internal/database/mysqlDb"
+	"user_accerss_server/internal/model/mysqlModel"
 )
 import "github.com/spf13/viper"
 
 func init() {
 	initConfig()
 	initFileLog()
+	initMysql()
 	mongoDb.InitDb()
 }
 
@@ -37,6 +40,8 @@ func main() {
 	apiGroup.GET("/user_access_user_log", middleware.Authorization, api.GetAccessUserList)
 	apiGroup.GET("/user_access_user_detail", middleware.Authorization, api.GetAccessUserDetail)
 
+	apiGroup.POST("/client_payment", api.ClientPayment)
+
 	httpPort := viper.GetString("app.httpPort")
 	http.ListenAndServe(":"+httpPort, router)
 }
@@ -58,4 +63,10 @@ func initFileLog() {
 	logFile := viper.GetString("app.logFile")
 	f, _ := os.Create(logFile)
 	gin.DefaultWriter = io.MultiWriter(f)
+}
+
+func initMysql() {
+	mysqlDb.NewDatabase()
+	db := mysqlDb.GetDatabase()
+	db.AutoMigrate(&mysqlModel.CustomerData{})
 }
