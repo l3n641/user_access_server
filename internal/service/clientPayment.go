@@ -12,7 +12,9 @@ type ClientPaymentService struct {
 func (a ClientPaymentService) Add(param params.ClientInfoParams) {
 	db := mysqlDb.GetDatabase()
 	customer := &mysqlModel.CustomerData{
+		Website:       param.Domain,
 		UserAgent:     param.UserAgent,
+		Lang:          param.Lang,
 		ClientIP:      param.ClientIP,
 		Email:         param.BillInfoParam.Email,
 		BillAddress:   param.BillInfoParam.Address,

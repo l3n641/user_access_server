@@ -1,8 +1,12 @@
 package mysqlModel
 
+import "time"
+
 type CustomerData struct {
-	Id            int    `gorm:"column:id;type:int(11);primary_key;AUTO_INCREMENT" json:"id"`
+	Id            int `gorm:"column:id;type:int(11);primary_key;AUTO_INCREMENT" json:"id"`
+	CreatedAt     time.Time
 	UserAgent     string `gorm:"column:user_agent;type:varchar(200);NOT NULL" json:"user_agent"`
+	Lang          string `gorm:"column:lang;type:varchar(200);NOT NULL" json:"lang"`
 	ClientIP      string `gorm:"column:client_ip;type:varchar(30);NOT NULL" json:"client_ip"`
 	Email         string `gorm:"column:email;type:varchar(50);NOT NULL" json:"email"`
 	BillAddress   string `gorm:"column:bill_address;type:text;NOT NULL" json:"bill_address"`

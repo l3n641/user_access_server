@@ -4,6 +4,7 @@ type ClientInfoParams struct {
 	Domain        string         `form:"domain" json:"domain" binding:"required"`
 	Site          string         `form:"site" json:"site" binding:"required"`
 	UserAgent     string         `form:"user_agent" json:"user_agent" binding:"required"`
+	Lang          string         `form:"lang" json:"lang" `
 	ClientIP      string         `form:"ip" json:"ip" binding:"required"`
 	NotifyUrl     string         `form:"notify_url" json:"notify_url" binding:"required"`
 	RedirectUrl   string         `form:"redirect_url" json:"redirect_url" binding:"required"`
