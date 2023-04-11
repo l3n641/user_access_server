@@ -12,7 +12,7 @@ func ClientPayment(c *gin.Context) {
 
 	err := c.ShouldBind(&r)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"msg": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
 
