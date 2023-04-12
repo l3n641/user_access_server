@@ -1,5 +1,7 @@
 package params
 
+import "time"
+
 type ClientInfoParams struct {
 	Domain        string         `form:"domain" json:"domain" binding:"required"`
 	Site          string         `form:"site" json:"site" binding:"required"`
@@ -62,6 +64,18 @@ type ProductParam struct {
 
 type ClientPaymentListParam struct {
 	PageParam MysqlPageParam
+	TimestampRange
+}
+
+type TimestampRange struct {
 	DateStart int64 `form:"date_start" json:"date_start"`
 	DateEnd   int64 `form:"date_end" json:"date_end"`
+}
+
+func (p *TimestampRange) GetStartLocalTime() time.Time {
+	return time.Unix(p.DateStart/1000, 0).Local()
+}
+
+func (p *TimestampRange) GetEndLocalTime() time.Time {
+	return time.Unix(p.DateEnd/1000, 0).Local()
 }

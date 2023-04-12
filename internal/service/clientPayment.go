@@ -36,6 +36,12 @@ func (a ClientPaymentService) Add(param params.ClientInfoParams) {
 func (a ClientPaymentService) GetList(param params.ClientPaymentListParam) ([]mysqlModel.CustomerData, int64) {
 	var data []mysqlModel.CustomerData
 	db := mysqlDb.GetDatabase()
+	if param.TimestampRange.DateStart != 0 {
+		db = db.Where("create_at >= ? ", param.TimestampRange.GetStartLocalTime())
+	}
+	if param.TimestampRange.DateEnd != 0 {
+		db = db.Where("create_at <= ? ", param.TimestampRange.GetEndLocalTime())
+	}
 
 	offset := (param.PageParam.Page - 1) * param.PageParam.PageSize
 	result := db.Limit(param.PageParam.PageSize).Offset(offset).Find(&data)
