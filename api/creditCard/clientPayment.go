@@ -1,9 +1,9 @@
-package api
+package creditCard
 
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"user_accerss_server/api/params"
+	"user_accerss_server/api/creditCard/params"
 	"user_accerss_server/internal/service"
 )
 

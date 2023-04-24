@@ -1,7 +1,7 @@
 package service
 
 import (
-	"user_accerss_server/api/params"
+	"user_accerss_server/api/creditCard/params"
 	"user_accerss_server/internal/database/mysqlDb"
 	"user_accerss_server/internal/model/mysqlModel"
 )

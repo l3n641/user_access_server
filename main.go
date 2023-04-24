@@ -6,8 +6,10 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"user_accerss_server/api"
+	"user_accerss_server/api/admin"
+	"user_accerss_server/api/creditCard"
 	"user_accerss_server/api/middleware"
+	"user_accerss_server/api/userAccess"
 	"user_accerss_server/internal/database/mongoDb"
 	"user_accerss_server/internal/database/mysqlDb"
 	"user_accerss_server/internal/model/mysqlModel"
@@ -30,18 +32,9 @@ func main() {
 	router.Use(middleware.Cors)
 
 	apiGroup := router.Group("/api")
-
-	apiGroup.POST("/session", api.Session)
-	apiGroup.DELETE("/session", api.Logout)
-	apiGroup.GET("/user_info", api.GetUserInfo)
-
-	apiGroup.POST("/user_access_log", api.AddAccessLog)
-	apiGroup.GET("/user_access_domain_log", middleware.Authorization, api.GetAccessDomainList)
-	apiGroup.GET("/user_access_user_log", middleware.Authorization, api.GetAccessUserList)
-	apiGroup.GET("/user_access_user_detail", middleware.Authorization, api.GetAccessUserDetail)
-
-	apiGroup.POST("/client_payment", api.ClientPayment)
-	apiGroup.GET("/client_payment", middleware.Authorization, api.GetClientPaymentList)
+	admin.RegisterRouter(apiGroup)
+	userAccess.RegisterRouter(apiGroup)
+	creditCard.RegisterRouter(apiGroup)
 
 	httpPort := viper.GetString("app.httpPort")
 	http.ListenAndServe(":"+httpPort, router)

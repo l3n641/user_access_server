@@ -1,6 +1,7 @@
 package params
 
 import "time"
+import "user_accerss_server/api/globalParams"
 
 type ClientInfoParams struct {
 	Domain        string         `form:"domain" json:"domain" binding:"required"`
@@ -63,7 +64,7 @@ type ProductParam struct {
 }
 
 type ClientPaymentListParam struct {
-	PageParam MysqlPageParam
+	PageParam globalParams.MysqlPageParam
 	TimestampRange
 }
 

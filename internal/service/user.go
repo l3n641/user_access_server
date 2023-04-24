@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/spf13/viper"
-	"user_accerss_server/api/params"
+	"user_accerss_server/api/admin/params"
 )
 
 type UserService struct {
