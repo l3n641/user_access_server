@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"user_accerss_server/api/admin"
+	"user_accerss_server/api/applePay"
 	"user_accerss_server/api/creditCard"
 	"user_accerss_server/api/middleware"
 	"user_accerss_server/api/userAccess"
@@ -35,6 +36,7 @@ func main() {
 	admin.RegisterRouter(apiGroup)
 	userAccess.RegisterRouter(apiGroup)
 	creditCard.RegisterRouter(apiGroup)
+	applePay.RegisterRouter(apiGroup)
 
 	httpPort := viper.GetString("app.httpPort")
 	http.ListenAndServe(":"+httpPort, router)
