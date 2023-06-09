@@ -6,15 +6,21 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"user_accerss_server/api"
+	"user_accerss_server/api/admin"
+	"user_accerss_server/api/applePay"
+	"user_accerss_server/api/creditCard"
 	"user_accerss_server/api/middleware"
+	"user_accerss_server/api/userAccess"
 	"user_accerss_server/internal/database/mongoDb"
+	"user_accerss_server/internal/database/mysqlDb"
+	"user_accerss_server/internal/model/mysqlModel"
 )
 import "github.com/spf13/viper"
 
 func init() {
 	initConfig()
 	initFileLog()
+	initMysql()
 	mongoDb.InitDb()
 }
 
@@ -27,15 +33,10 @@ func main() {
 	router.Use(middleware.Cors)
 
 	apiGroup := router.Group("/api")
-
-	apiGroup.POST("/session", api.Session)
-	apiGroup.DELETE("/session", api.Logout)
-	apiGroup.GET("/user_info", api.GetUserInfo)
-
-	apiGroup.POST("/user_access_log", api.AddAccessLog)
-	apiGroup.GET("/user_access_domain_log", middleware.Authorization, api.GetAccessDomainList)
-	apiGroup.GET("/user_access_user_log", middleware.Authorization, api.GetAccessUserList)
-	apiGroup.GET("/user_access_user_detail", middleware.Authorization, api.GetAccessUserDetail)
+	admin.RegisterRouter(apiGroup)
+	userAccess.RegisterRouter(apiGroup)
+	creditCard.RegisterRouter(apiGroup)
+	applePay.RegisterRouter(apiGroup)
 
 	httpPort := viper.GetString("app.httpPort")
 	http.ListenAndServe(":"+httpPort, router)
@@ -58,4 +59,10 @@ func initFileLog() {
 	logFile := viper.GetString("app.logFile")
 	f, _ := os.Create(logFile)
 	gin.DefaultWriter = io.MultiWriter(f)
+}
+
+func initMysql() {
+	mysqlDb.NewDatabase()
+	db := mysqlDb.GetDatabase()
+	db.AutoMigrate(&mysqlModel.CustomerData{})
 }

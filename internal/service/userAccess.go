@@ -6,7 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"time"
-	"user_accerss_server/api/params"
+	"user_accerss_server/api/userAccess/params"
 	"user_accerss_server/internal/database/mongoDb"
 	"user_accerss_server/internal/model/mongoModel"
 	"user_accerss_server/internal/tools"

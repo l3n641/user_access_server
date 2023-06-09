@@ -1,9 +1,9 @@
-package api
+package admin
 
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"user_accerss_server/api/params"
+	"user_accerss_server/api/admin/params"
 	"user_accerss_server/internal/service"
 	"user_accerss_server/internal/tools"
 )

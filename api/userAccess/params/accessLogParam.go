@@ -1,6 +1,7 @@
 package params
 
 import "time"
+import "user_accerss_server/api/globalParams"
 
 type AccessLogPostParam struct {
 	Domain    string `form:"Domain" json:"domain" binding:"required"`
@@ -13,7 +14,7 @@ type AccessLogPostParam struct {
 }
 
 type AccessDomainLogGetParam struct {
-	PageParam
+	globalParams.PageParam
 	Domain    string `form:"domain" json:"domain"`
 	DateStart int64  `form:"date_start" json:"date_start"  binding:"required"`
 	DateEnd   int64  `form:"date_end" json:"date_end"  binding:"required"`
@@ -28,7 +29,7 @@ func (p *AccessDomainLogGetParam) GetEndLocalTime() time.Time {
 }
 
 type AccessUserLogGetParam struct {
-	PageParam
+	globalParams.PageParam
 	Domain    string `form:"domain" json:"domain"`
 	DateStart int64  `form:"date_start" json:"date_start"  binding:"required"`
 	DateEnd   int64  `form:"date_end" json:"date_end"  binding:"required"`
